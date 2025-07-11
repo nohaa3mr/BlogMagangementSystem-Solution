@@ -11,7 +11,7 @@ namespace BlogMagangementSystem.Common.Structures.ResponseStructure
         public IMediator Mediator => _mediator;
         public IValidator<TRequest> Validator => _validator;
 
-        public BaseEndpointParameters(IMediator mediator , IValidator<TRequest> validator)
+        public BaseEndpointParameters(IMediator mediator , IValidator<TRequest> validator) 
         {
             _mediator = mediator;
             _validator = validator;

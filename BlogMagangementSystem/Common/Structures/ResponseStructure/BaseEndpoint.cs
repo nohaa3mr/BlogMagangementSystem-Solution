@@ -1,4 +1,5 @@
-﻿using BlogMagangementSystem.Common.Enums;
+﻿using BlogMagangementSystem.Common.Entities;
+using BlogMagangementSystem.Common.Enums;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +12,17 @@ namespace BlogMagangementSystem.Common.Structures.ResponseStructure
     {
         private readonly IMediator _mediator;
         private readonly IValidator<TRequest> _validator;
+        private BaseEndpointParameters<Post> _parameters;
 
         public IMediator Mediator => _mediator;
-        public BaseEndpoint(IMediator mediator , IValidator<TRequest> validator )
+        public BaseEndpoint(BaseEndpointParameters<TRequest> parameters )
         {
-            this._mediator = mediator;
-            this._validator = validator;
+            _mediator = parameters.Mediator;
+            _validator = parameters.Validator;
         }
+
+     
+
         protected Task<EndpointResponse<TResponse>> ValidateAsync(TRequest request)
         {
             var validationResult = _validator.Validate(request);
