@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using BlogMagangementSystem.Common.ErrorHandling;
+using System.Net;
 using System.Text.Json;
 
 namespace BlogMagangementSystem.Common.Middlewares
@@ -39,6 +40,6 @@ namespace BlogMagangementSystem.Common.Middlewares
                 await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
             }
         }
-    {
+    
     }
 }
