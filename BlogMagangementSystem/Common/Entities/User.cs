@@ -13,5 +13,9 @@ namespace BlogMagangementSystem.Common.Entities
         public Role Role { get; set; } // e.g., Admin, User, Moderator
         public string Username { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public ICollection<Post> Posts { get; set; } = new HashSet<Post>();
+
+
+
     }
 }

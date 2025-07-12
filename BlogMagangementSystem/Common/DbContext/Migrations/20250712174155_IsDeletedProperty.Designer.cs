@@ -4,6 +4,7 @@ using BlogMagangementSystem.Common.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogMagangementSystem.Context.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    partial class BlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250712174155_IsDeletedProperty")]
+    partial class IsDeletedProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +105,7 @@ namespace BlogMagangementSystem.Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -129,7 +132,7 @@ namespace BlogMagangementSystem.Context.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -260,13 +263,21 @@ namespace BlogMagangementSystem.Context.Migrations
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Post", b =>
                 {
-                    b.HasOne("BlogMagangementSystem.Common.Entities.Category", null)
-                        .WithMany("posts")
-                        .HasForeignKey("CategoryId");
+                    b.HasOne("BlogMagangementSystem.Common.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("BlogMagangementSystem.Common.Entities.User", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                    b.HasOne("BlogMagangementSystem.Common.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Tag", b =>
@@ -276,19 +287,9 @@ namespace BlogMagangementSystem.Context.Migrations
                         .HasForeignKey("PostId");
                 });
 
-            modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Category", b =>
-                {
-                    b.Navigation("posts");
-                });
-
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Post", b =>
                 {
                     b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("BlogMagangementSystem.Common.Entities.User", b =>
-                {
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

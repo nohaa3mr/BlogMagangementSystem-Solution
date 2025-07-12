@@ -3,18 +3,15 @@ using MediatR;
 
 namespace BlogMagangementSystem.Common.Structures.RequestStructure
 {
-    public class BaseRequestParameters<TRequest>
+    public class BaseRequestParameters
     {
         private readonly IMediator _mediator;
-        private readonly IGenericRepository<TRequest> _repository;
 
         public IMediator Mediator => _mediator;
-        public IGenericRepository<TRequest> Repository => _repository;
 
-        public BaseRequestParameters(IMediator mediator, IGenericRepository<TRequest> repository)
+        public BaseRequestParameters(IMediator mediator)
         {
             _mediator = mediator;
-            _repository = repository;
         }
     }
 }

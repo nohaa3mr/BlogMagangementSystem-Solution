@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace BlogMagangementSystem.Common.GenericRepository
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity , IDisposable
+    public class GenericRepository<T> : IDisposable where T : BaseEntity 
     {
         private readonly BlogDbContext _dbContext;
         private readonly DbSet<T> _dbSet;

@@ -7,15 +7,14 @@ namespace BlogMagangementSystem.Common.Structures.RequestStructure
         public abstract class BaseRequestHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
         {
             protected IMediator _mediator;
-            protected IGenericRepository<TRequest> _repository;
 
-        public BaseRequestHandler(BaseRequestParameters<TRequest> parameters, IGenericRepository<TRequest> repository)
+        public BaseRequestHandler(BaseRequestParameters parameters )
         {
                 _mediator = parameters.Mediator;
-                _repository = repository;
         }
 
-            public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
+
+        public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 
         }
     

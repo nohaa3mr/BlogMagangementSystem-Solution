@@ -4,6 +4,7 @@ using BlogMagangementSystem.Common.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogMagangementSystem.Context.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    partial class BlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250712182455_ForiegnKeyProperties")]
+    partial class ForiegnKeyProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +132,7 @@ namespace BlogMagangementSystem.Context.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -264,9 +267,13 @@ namespace BlogMagangementSystem.Context.Migrations
                         .WithMany("posts")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("BlogMagangementSystem.Common.Entities.User", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                    b.HasOne("BlogMagangementSystem.Common.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Tag", b =>
@@ -284,11 +291,6 @@ namespace BlogMagangementSystem.Context.Migrations
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Post", b =>
                 {
                     b.Navigation("Tags");
-                });
-
-            modelBuilder.Entity("BlogMagangementSystem.Common.Entities.User", b =>
-                {
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

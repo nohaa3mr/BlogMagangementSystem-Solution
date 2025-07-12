@@ -10,7 +10,7 @@ namespace BlogMagangementSystem.Common.Structures.ResponseStructure
             return new EndpointResponse<T>(data, true, message, ErrorCode.None);
         }
 
-        public static EndpointResponse<T> Failure(ErrorCode errorCode)
+        public static EndpointResponse<T> Failure(ErrorCode errorCode , string message = default!)
         {
             return new EndpointResponse<T>(default!, false, errorCode.GetDescription(), errorCode);
         }
