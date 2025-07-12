@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Features\DeletePostFeature\" />
-    <Folder Include="Features\UpdatePostFeature\" />
   </ItemGroup>
 
 </Project>
