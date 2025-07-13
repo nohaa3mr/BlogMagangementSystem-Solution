@@ -1,16 +1,18 @@
 ﻿using BlogMagangementSystem.Common.Context;
 using BlogMagangementSystem.Common.ErrorHandling;
 using BlogMagangementSystem.Common.GenericRepository;
-using BlogMagangementSystem.Common.Helpers.Validators;
+using BlogMagangementSystem.Common.Helpers.Validators.PostValidation;
 using BlogMagangementSystem.Common.Middlewares;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
 using BlogMagangementSystem.Common.Structures.ResponseStructure;
+using BlogMagangementSystem.Features.GetPostByIdFeature;
 using BlogMagangementSystem.Features.PostModule;
+using BlogMagangementSystem.Features.UpdatePostFeature;
 using FluentValidation;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using System;
+
 
 namespace BlogMagangementSystem.Common.ExtensionMethods
 {
@@ -26,6 +28,9 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
 
             Services.AddScoped(typeof(GenericRepository<>));
             Services.AddScoped<IValidator<AddPostRequestViewModel>, AddPostRequestVMValidator>();
+            Services.AddScoped<IValidator<UpdatePostRequestViewModel>, UpdatePostRequestVMValidator>();
+            Services.AddScoped<IValidator<GetPostByIdRequestViewModel>, GetPostByIdValidator>();
+
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
                   typeof(Program).Assembly
@@ -34,9 +39,16 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
             Services.AddScoped<ExceptionMiddleware>();
             Services.AddScoped<SerilogMiddleware>();
             Services.AddScoped<GlobalTransactionMiddleware>();
-
             Services.AddScoped<BaseRequestParameters>();
             Services.AddScoped(typeof(BaseEndpointParameters<>));
+            Services.AddHangfire(opt =>
+            {
+                opt.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseRecommendedSerializerSettings();
+                opt.UseSimpleAssemblyNameTypeSerializer();
+                opt.UseRecommendedSerializerSettings();
+            });
+            Services.AddHangfireServer();
             #region ApiValidationError
             Services.Configure<ApiBehaviorOptions>(opthion =>
             {

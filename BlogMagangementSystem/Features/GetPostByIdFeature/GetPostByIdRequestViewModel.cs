@@ -2,5 +2,6 @@
 {
     public class GetPostByIdRequestViewModel
     {
+        public int Id { get; set; }
     }
 }

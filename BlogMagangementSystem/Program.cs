@@ -1,8 +1,7 @@
-using BlogMagangementSystem.Common.Context;
 using BlogMagangementSystem.Common.ExtensionMethods;
 using BlogMagangementSystem.Common.Middlewares;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace BlogMagangementSystem
@@ -29,6 +28,15 @@ namespace BlogMagangementSystem
               sinkOptions: new Serilog.Sinks.MSSqlServer.MSSqlServerSinkOptions { AutoCreateSqlTable = true, TableName = "Logs" }
               ).CreateLogger();
             var app = builder.Build();
+            var scope = app.Services.CreateScope();
+            var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+
+            //recurringJobManager.AddOrUpdate<>
+            //(
+            //    "UpdateExpiredTasks",
+            //    job => job.Run(),  // method to call
+            //    Cron.Minutely       // every minute
+            //);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -41,7 +49,9 @@ namespace BlogMagangementSystem
 
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<SerilogMiddleware>();
-            app.UseMiddleware<GlobalTransactionMiddleware>();
+            app.UseMiddleware<GlobalTransactionMiddleware>();   
+            app.UseHangfireDashboard("/hangfire");
+
             app.UseAuthorization();
 
 

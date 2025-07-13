@@ -9,10 +9,16 @@ namespace BlogMagangementSystem.Features.GetPostByIdFeature
         public GetPostByIdEndpoint(BaseEndpointParameters<GetPostByIdRequestViewModel> parameters) : base(parameters)
         {
         }
-        [HttpGet("GetPostById/{postId}")]
-        public async Task<EndpointResponse<GetPostByIdResponseViewModel>> GetPostByIdAsync(int postId)
+        [HttpGet("GetPostById/{PostId}")]
+        public async Task<EndpointResponse<GetPostByIdResponseViewModel>> GetPostByIdAsync(int PostId)
         {
-            var result = await Mediator.Send(new GetPostByIdQuery(postId));
+            var RequestViewModel = new GetPostByIdRequestViewModel { Id = PostId };
+            var validationResponse = await ValidateAsync(RequestViewModel);
+            if (!validationResponse.IsSuccess)
+            {
+                return EndpointResponse<GetPostByIdResponseViewModel>.Failure(validationResponse.ErrorCode, validationResponse.Message);
+            }
+            var result = await Mediator.Send(new GetPostByIdQuery(PostId));
             var response = result.Adapt<EndpointResponse<GetPostByIdResponseViewModel>>();
             if (!response.IsSuccess)
             {
