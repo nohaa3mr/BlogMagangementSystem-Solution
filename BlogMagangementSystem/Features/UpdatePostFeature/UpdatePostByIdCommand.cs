@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BlogMagangementSystem.Features.UpdatePostFeature
 {
-    public sealed record UpdatePostByIdCommand(UpdatePostDto Dto) :IRequest<RequestResult<UpdatePostDto>>;
+    public sealed record UpdatePostByIdCommand(UpdatePostDto DTO) :IRequest<RequestResult<UpdatePostDto>>;
     public class UpdatePostByIdCommandHandler : BaseRequestHandler<UpdatePostByIdCommand, RequestResult<UpdatePostDto>>
     {
         private readonly GenericRepository<Post> _repository;
@@ -19,21 +19,22 @@ namespace BlogMagangementSystem.Features.UpdatePostFeature
         }
         public override async Task<RequestResult<UpdatePostDto>> Handle(UpdatePostByIdCommand request, CancellationToken cancellationToken)
         {
-            if (request.Dto is null || request.Dto.Id <= 0)
-            
+            if (request.DTO is null||request.DTO.Id <= 0)
+            {
                 return RequestResult<UpdatePostDto>.Failure(ErrorCode.InvalidInput);
-            
+            }            
             try
             {
-                var QueryResult = await _mediator.Send(new GetPostByIdQuery(request.Dto.Id));
+                var QueryResult = await _mediator.Send(new GetPostByIdQuery(request.DTO.Id));
 
                 if (!QueryResult.IsSuccess)
                 {
                     return RequestResult<UpdatePostDto>.Failure(ErrorCode.PostNotFound);
                 }
-                var updatedPost = request.Dto.Adapt<Post>();
-                await _repository.UpdateInclude(updatedPost, updatedPost.Content , updatedPost.Title );
-                var result = QueryResult.Adapt<UpdatePostDto>();
+
+                var Post = QueryResult.Data.Adapt<Post>();
+                await _repository.UpdateInclude(Post);
+                var result = Post.Adapt<UpdatePostDto>();
                 return RequestResult<UpdatePostDto>.Success
                 (
                     data: result, 

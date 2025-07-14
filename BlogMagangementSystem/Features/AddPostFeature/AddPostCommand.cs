@@ -1,6 +1,7 @@
 ﻿using BlogMagangementSystem.Common.Entities;
 using BlogMagangementSystem.Common.Enums;
 using BlogMagangementSystem.Common.GenericRepository;
+using BlogMagangementSystem.Common.MessageBroker;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
 using Mapster;
 using MediatR;

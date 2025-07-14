@@ -12,6 +12,9 @@ using FluentValidation;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using RabbitMQ.Client;
+using System.Configuration;
 
 
 namespace BlogMagangementSystem.Common.ExtensionMethods
@@ -47,8 +50,34 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
                 opt.UseRecommendedSerializerSettings();
                 opt.UseSimpleAssemblyNameTypeSerializer();
                 opt.UseRecommendedSerializerSettings();
-            });
+            }); 
             Services.AddHangfireServer();
+            Services.AddSingleton<IConnection>(sp =>
+            {
+                var factory = new ConnectionFactory { HostName = "localhost" }; // Adjust settings as needed
+                return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+            });
+
+            Services.AddSingleton<IChannel>(sp =>
+            {
+                var connection = sp.GetRequiredService<IConnection>();
+                return connection.CreateChannelAsync().GetAwaiter().GetResult();
+            });
+            Services.AddHttpContextAccessor();
+            Services.AddCap(options =>
+            {
+                options.UseEntityFramework<BlogDbContext>();
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseRabbitMQ(rabbitMQ =>
+                {
+                    rabbitMQ.HostName = "localhost";
+                    rabbitMQ.UserName = "guest";
+                    rabbitMQ.Password = "guest";
+                    rabbitMQ.Port = 15672;
+                    rabbitMQ.ExchangeName = "cap.default.router";
+
+                });
+            });
             #region ApiValidationError
             Services.Configure<ApiBehaviorOptions>(opthion =>
             {

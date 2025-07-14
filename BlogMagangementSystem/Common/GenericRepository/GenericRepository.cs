@@ -45,7 +45,6 @@ namespace BlogMagangementSystem.Common.GenericRepository
         {
             return await Task.FromResult(_dbSet.AsNoTracking().FirstOrDefault(criteria));
         }
-
         public async Task UpdateInclude(T entity, params string[] modifiedProperties)
         {
             var local = _dbContext.Set<T>().Local.FirstOrDefault(x => x.Id == entity.Id);
@@ -91,7 +90,14 @@ namespace BlogMagangementSystem.Common.GenericRepository
         {
             _dbContext.Dispose();
         }
+        public async Task UpdateAsync(T entity)
+        {
+             _dbSet.Update(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
 
+            await Task.CompletedTask;
+        }
         public async Task DeleteRangeAsync(IEnumerable<T> entities)
         {
             _dbContext.RemoveRange(entities);

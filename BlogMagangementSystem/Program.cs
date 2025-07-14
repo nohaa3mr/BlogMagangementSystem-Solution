@@ -1,5 +1,6 @@
 using BlogMagangementSystem.Common.ExtensionMethods;
 using BlogMagangementSystem.Common.Middlewares;
+using BlogMagangementSystem.Features.UpdatePostFeature;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -31,12 +32,12 @@ namespace BlogMagangementSystem
             var scope = app.Services.CreateScope();
             var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
 
-            //recurringJobManager.AddOrUpdate<>
-            //(
-            //    "UpdateExpiredTasks",
-            //    job => job.Run(),  // method to call
-            //    Cron.Minutely       // every minute
-            //);
+            recurringJobManager.AddOrUpdate<UpdatePostDto>
+            (
+                "Your post is up to date",
+                job => job.Run(),  // method to call
+                Cron.Minutely       // every minute
+            );
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
