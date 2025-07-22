@@ -1,7 +1,7 @@
 ﻿using BlogMagangementSystem.Features.UpdatePostFeature;
 using FluentValidation;
 
-namespace BlogMagangementSystem.Common.Helpers.Validators.PostValidation
+namespace BlogMagangementSystem.Features.AddPostFeature.Validators.PostValidation
 {
     public class UpdatePostRequestVMValidator : AbstractValidator<UpdatePostRequestViewModel>
     {

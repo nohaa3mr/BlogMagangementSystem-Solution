@@ -1,7 +1,7 @@
 ﻿using BlogMagangementSystem.Common.Entities;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
 using BlogMagangementSystem.Common.Structures.ResponseStructure;
-using BlogMagangementSystem.Orchastrators.AddPostOrchastrator;
+using BlogMagangementSystem.Orchestrators.AddPostOrchastrator;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ namespace BlogMagangementSystem.Features.PostModule
                 return EndpointResponse<AddPostResponseViewModel>.Failure(validationResult.ErrorCode , validationResult.Message);
             }
             var command = request.Adapt<AddPostDto>();
-            var result = await Mediator.Send(new AddPostOrchastrator(command));
+            var result = await Mediator.Send(new AddPostOrchestrator(command));
             var response =  result.Adapt<EndpointResponse<AddPostResponseViewModel>>();
 
             if (!response.IsSuccess)

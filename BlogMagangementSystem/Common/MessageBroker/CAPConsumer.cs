@@ -4,11 +4,12 @@ namespace BlogMagangementSystem.Common.MessageBroker
 {
     public class CAPConsumer : ICapSubscribe
     {
-        [CapSubscribe("post.created")]
+        [CapSubscribe("post.Iscreated")]
         public void HandlePostCreatedAsync(dynamic message)
         {
             string title = message.Title;
             string content = message.Content;
+            string messageBroker = message.Broker; 
 
             Console.WriteLine($"New post created: {title}");
         }

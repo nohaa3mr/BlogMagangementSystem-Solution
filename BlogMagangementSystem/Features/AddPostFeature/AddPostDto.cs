@@ -9,6 +9,7 @@
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public bool IsPublished { get; set; } = false;
         public string Username { get; set; }
-        public bool IsSendToMessageBroker { get; internal set; }
+        public bool IsSendToMessageBroker { get;  set; }
+        public string Message { get; set; }
     }
 }

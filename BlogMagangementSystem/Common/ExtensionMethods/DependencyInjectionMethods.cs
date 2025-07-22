@@ -1,10 +1,11 @@
 ﻿using BlogMagangementSystem.Common.Context;
 using BlogMagangementSystem.Common.ErrorHandling;
 using BlogMagangementSystem.Common.GenericRepository;
-using BlogMagangementSystem.Common.Helpers.Validators.PostValidation;
 using BlogMagangementSystem.Common.Middlewares;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
 using BlogMagangementSystem.Common.Structures.ResponseStructure;
+using BlogMagangementSystem.Features.AddPostFeature.Validators.PostValidation;
+using BlogMagangementSystem.Features.DeletePostFeature;
 using BlogMagangementSystem.Features.GetPostByIdFeature;
 using BlogMagangementSystem.Features.PostModule;
 using BlogMagangementSystem.Features.UpdatePostFeature;
@@ -33,7 +34,7 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
             Services.AddScoped<IValidator<AddPostRequestViewModel>, AddPostRequestVMValidator>();
             Services.AddScoped<IValidator<UpdatePostRequestViewModel>, UpdatePostRequestVMValidator>();
             Services.AddScoped<IValidator<GetPostByIdRequestViewModel>, GetPostByIdValidator>();
-
+            Services.AddScoped<IValidator<DeletePostRequestViewModel>, DeletePostRequesVMValidator>();
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
                   typeof(Program).Assembly

@@ -1,7 +1,8 @@
-﻿using BlogMagangementSystem.Features.PostModule;
+﻿using BlogMagangementSystem.Common.Enums;
+using BlogMagangementSystem.Features.PostModule;
 using FluentValidation;
 
-namespace BlogMagangementSystem.Common.Helpers.Validators.PostValidation
+namespace BlogMagangementSystem.Features.AddPostFeature.Validators.PostValidation
 {
     public class AddPostRequestVMValidator : AbstractValidator<AddPostRequestViewModel>
     {
@@ -17,6 +18,8 @@ namespace BlogMagangementSystem.Common.Helpers.Validators.PostValidation
             RuleFor(x => x.Username)
                 .NotEmpty().WithMessage("Username is required.")
                 .MaximumLength(50).WithMessage("Username cannot exceed 50 characters.");
+            RuleFor(x=>x.Message).Length(0, 500).WithMessage("Message cannot exceed 500 characters.")
+                .When(x => !string.IsNullOrEmpty(x.Message)); // Optional field, so only validate if provided
         }
     }
 }

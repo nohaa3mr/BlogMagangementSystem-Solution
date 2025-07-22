@@ -34,7 +34,7 @@ namespace BlogMagangementSystem
 
             recurringJobManager.AddOrUpdate<UpdatePostDto>
             (
-                "Your post is up to date",
+                "Your post is up todate",
                 job => job.Run(),  // method to call
                 Cron.Minutely       // every minute
             );

@@ -1,7 +1,7 @@
 ﻿using BlogMagangementSystem.Features.GetPostByIdFeature;
 using FluentValidation;
 
-namespace BlogMagangementSystem.Common.Helpers.Validators.PostValidation
+namespace BlogMagangementSystem.Features.AddPostFeature.Validators.PostValidation
 {
     public class GetPostByIdValidator : AbstractValidator<GetPostByIdRequestViewModel>
     {

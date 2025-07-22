@@ -8,7 +8,7 @@ namespace BlogMagangementSystem.Features.UpdatePostFeature
     public class UpdatePostEndpoint :BaseEndpoint<UpdatePostRequestViewModel,UpdatePostResponseViewModel>
     {
         public UpdatePostEndpoint(BaseEndpointParameters<UpdatePostRequestViewModel> parameters): base(parameters){}
-        [HttpPut("UpdatePost/")]
+        [HttpPut("UpdatePost/{Id}")]
         public async Task<EndpointResponse<UpdatePostResponseViewModel>> UpdatePostAsync(UpdatePostRequestViewModel requestViewModel)
         { 
 
@@ -22,8 +22,6 @@ namespace BlogMagangementSystem.Features.UpdatePostFeature
             var command = requestViewModel.Adapt<UpdatePostDto>();
             var result = await Mediator.Send(new UpdatePostByIdCommand(command));
             var response = request.Adapt<UpdatePostResponseViewModel>();
-   
-
             return EndpointResponse<UpdatePostResponseViewModel>.Success(response);
         }
     }
