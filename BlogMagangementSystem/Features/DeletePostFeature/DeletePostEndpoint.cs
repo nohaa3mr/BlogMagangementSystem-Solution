@@ -12,15 +12,15 @@ namespace BlogMagangementSystem.Features.DeletePostFeature
 
         [HttpDelete("Delete-Post-By-Id")]
         public async Task<EndpointResponse<DeletePostResponseViewModel>> DeletePost(DeletePostRequestViewModel model )
-        {
+        {  
+
             var validationResponse = await ValidateAsync(model);
             if(!validationResponse.IsSuccess)
             {
                 return EndpointResponse<DeletePostResponseViewModel>.Failure(validationResponse.ErrorCode);
             }
             var command = model.Adapt<PostDTO>();
-            
-            var result = await Mediator.Send(command);
+            var result = await Mediator.Send(new DeletePostByIdCommand(command));
             var RequestResult = result.Adapt<EndpointResponse<DeletePostResponseViewModel>>();
             if (!RequestResult.IsSuccess)
             {

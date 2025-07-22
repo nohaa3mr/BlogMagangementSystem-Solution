@@ -24,8 +24,7 @@ namespace BlogMagangementSystem.Common.Middlewares
             }
             catch (Exception)
             {
-
-                Transaction?.Rollback();
+               Transaction?.Rollback();
                 throw;
             }
 

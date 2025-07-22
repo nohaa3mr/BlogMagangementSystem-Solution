@@ -9,7 +9,7 @@ using MediatR;
 
 namespace BlogMagangementSystem.Features.DeletePostFeature
 {
-    public sealed record DeletePostByIdCommand(int Id) : IRequest<RequestResult<PostDTO>>;
+    public sealed record DeletePostByIdCommand(PostDTO DTO) : IRequest<RequestResult<PostDTO>>;
     public class DeletePostByIdCommandHandler : BaseRequestHandler<DeletePostByIdCommand, RequestResult<PostDTO>>
     {
         private readonly GenericRepository<Post> _repository;
@@ -20,17 +20,15 @@ namespace BlogMagangementSystem.Features.DeletePostFeature
         }
         public override async Task<RequestResult<PostDTO>> Handle(DeletePostByIdCommand request, CancellationToken cancellationToken)
         {
-            if (request.Id <= 0)
-                return RequestResult<PostDTO>.Failure(ErrorCode.InvalidInput);
-            var post = await _mediator.Send(new GetPostByIdQuery(request.Id), cancellationToken);
-            if (!post.IsSuccess)
-                return RequestResult<PostDTO>.Failure(post.ErrorCode);
+            if (request.DTO.Id <= 0) return RequestResult<PostDTO>.Failure(ErrorCode.InvalidInput);
+            var POST = request.DTO.Adapt<Post>();
+            var post = await _repository.GetByIdAsync(POST.Id);
+            if (post is null)
+                return RequestResult<PostDTO>.Failure(ErrorCode.PostNotFound);
+            await _repository.DeleteAsync(post);
+            var response = post.Adapt<PostDTO>();
+            return RequestResult<PostDTO>.Success(data: response, message: "Post Deleted Successfully");
 
-            var postToDelete = post.Data.Adapt<Post>();
-             await _repository.DeleteAsync(postToDelete);
-            await _repository.SaveChangesAsync();
-            var result = post.Data.Adapt<PostDTO>();
-            return RequestResult<PostDTO>.Success(data:result, message:"Post Deleted Successfully!");
         }
     }
 

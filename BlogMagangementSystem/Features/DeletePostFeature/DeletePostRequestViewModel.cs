@@ -2,6 +2,6 @@
 {
     public class DeletePostRequestViewModel
     {
-        public int PostId { get; set; }
+        public int Id { get; set; }
     }
 }

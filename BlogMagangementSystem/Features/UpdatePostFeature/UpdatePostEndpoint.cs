@@ -11,9 +11,7 @@ namespace BlogMagangementSystem.Features.UpdatePostFeature
         [HttpPut("UpdatePost/{Id}")]
         public async Task<EndpointResponse<UpdatePostResponseViewModel>> UpdatePostAsync(UpdatePostRequestViewModel requestViewModel)
         { 
-
-            var request = requestViewModel.Adapt<UpdatePostRequestViewModel>();
-            var validationResult = await ValidateAsync(request);
+            var validationResult = await ValidateAsync(requestViewModel);
             if (!validationResult.IsSuccess)
             {
                 return EndpointResponse<UpdatePostResponseViewModel>.Failure(validationResult.ErrorCode);
@@ -21,8 +19,8 @@ namespace BlogMagangementSystem.Features.UpdatePostFeature
           
             var command = requestViewModel.Adapt<UpdatePostDto>();
             var result = await Mediator.Send(new UpdatePostByIdCommand(command));
-            var response = request.Adapt<UpdatePostResponseViewModel>();
-            return EndpointResponse<UpdatePostResponseViewModel>.Success(response);
+            var response = requestViewModel.Adapt<UpdatePostResponseViewModel>();
+            return EndpointResponse<UpdatePostResponseViewModel>.Success(response , result.Message);
         }
     }
 }
