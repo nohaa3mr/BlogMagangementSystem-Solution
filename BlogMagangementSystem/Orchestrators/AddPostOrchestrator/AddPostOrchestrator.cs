@@ -1,6 +1,6 @@
 ﻿using BlogMagangementSystem.Common.Enums;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
-using BlogMagangementSystem.Features.PostModule;
+using BlogMagangementSystem.Features.PostFeatures.AddPostFeature;
 using DotNetCore.CAP;
 using MediatR;
 

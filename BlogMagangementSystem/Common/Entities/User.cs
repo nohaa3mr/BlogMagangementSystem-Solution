@@ -14,8 +14,5 @@ namespace BlogMagangementSystem.Common.Entities
         public string Username { get; set; }
         public DateTime DateOfBirth { get; set; }
         public ICollection<Post> Posts { get; set; } = new HashSet<Post>();
-
-
-
     }
 }

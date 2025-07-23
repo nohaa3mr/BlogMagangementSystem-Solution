@@ -1,6 +1,6 @@
 using BlogMagangementSystem.Common.ExtensionMethods;
 using BlogMagangementSystem.Common.Middlewares;
-using BlogMagangementSystem.Features.UpdatePostFeature;
+using BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
