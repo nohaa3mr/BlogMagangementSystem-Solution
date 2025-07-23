@@ -1,19 +1,25 @@
 ﻿using BlogMagangementSystem.Common.Context;
 using BlogMagangementSystem.Common.ErrorHandling;
 using BlogMagangementSystem.Common.GenericRepository;
+using BlogMagangementSystem.Common.JWT_Service;
 using BlogMagangementSystem.Common.Middlewares;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
 using BlogMagangementSystem.Common.Structures.ResponseStructure;
+using BlogMagangementSystem.Common.Validators.PostValidation;
 using BlogMagangementSystem.Features.PostFeatures.AddPostFeature;
-using BlogMagangementSystem.Features.PostFeatures.AddPostFeature.Validators.PostValidation;
 using BlogMagangementSystem.Features.PostFeatures.DeletePostFeature;
 using BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature;
 using BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature;
+using BlogMagangementSystem.Features.UserFeatures.HashingAlgorithm;
+using BlogMagangementSystem.Features.UserFeatures.Login;
+using BlogMagangementSystem.Features.UserFeatures.Registeration;
 using FluentValidation;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
 using System.Configuration;
 
@@ -31,10 +37,15 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
           Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             Services.AddScoped(typeof(GenericRepository<>));
+            Services.AddScoped<JWTService>();
+            Services.AddScoped<UserNameHaser>();
+            Services.AddScoped<PasswordHasher>();
             Services.AddScoped<IValidator<AddPostRequestViewModel>, AddPostRequestVMValidator>();
             Services.AddScoped<IValidator<UpdatePostRequestViewModel>, UpdatePostRequestVMValidator>();
             Services.AddScoped<IValidator<GetPostByIdRequestViewModel>, GetPostByIdValidator>();
             Services.AddScoped<IValidator<DeletePostRequestViewModel>, DeletePostRequesVMValidator>();
+            Services.AddScoped<IValidator<UserRegisterationRequestViewModel>,UserRequestVmValidator>();
+            Services.AddScoped<IValidator<UserLoginRequestViewModel>, LoginRequestViewModelValidator>();   
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
                   typeof(Program).Assembly
@@ -79,6 +90,19 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
 
                 });
             });
+            Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+             .AddJwtBearer(options =>
+             {
+             options.Authority= "https://your-auth-server.com"; // OAuth2 provider (e.g. Auth0, Azure AD, IdentityServer)
+             options.Audience = "http://localhost:7185/"; 
+             options.TokenValidationParameters = new TokenValidationParameters
+             {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true
+            };
+    });
             #region ApiValidationError
             Services.Configure<ApiBehaviorOptions>(opthion =>
             {

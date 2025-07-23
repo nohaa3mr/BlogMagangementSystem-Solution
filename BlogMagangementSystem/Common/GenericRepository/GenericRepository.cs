@@ -41,10 +41,9 @@ namespace BlogMagangementSystem.Common.GenericRepository
             return await Task.FromResult(_dbSet.FirstOrDefault(x => x.Id == id));
         }
 
-        public async Task<T> GetBySpecAsync(Expression<Func<T, bool>> criteria)
-        {
-            return await Task.FromResult(_dbSet.AsNoTracking().FirstOrDefault(criteria));
-        }
+        public async Task<T> GetByCriteriaAsync(Expression<Func<T, bool>> criteria)
+           => await _dbSet.Where(criteria).FirstOrDefaultAsync();
+
         public async Task UpdateInclude(T entity, params string[] modifiedProperties)
         {
             var local = _dbContext.Set<T>().Local.FirstOrDefault(x => x.Id == entity.Id);

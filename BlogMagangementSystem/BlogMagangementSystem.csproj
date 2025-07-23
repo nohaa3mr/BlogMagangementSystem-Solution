@@ -17,6 +17,7 @@
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.20" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.7" />
@@ -42,7 +43,6 @@
 
   <ItemGroup>
     <Folder Include="Features\RoleFilter\" />
-    <Folder Include="Features\UserFeatures\Registeration\" />
   </ItemGroup>
 
 </Project>

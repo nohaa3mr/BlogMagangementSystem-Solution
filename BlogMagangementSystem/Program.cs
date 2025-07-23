@@ -53,6 +53,7 @@ namespace BlogMagangementSystem
             app.UseMiddleware<GlobalTransactionMiddleware>();   
             app.UseHangfireDashboard("/hangfire");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

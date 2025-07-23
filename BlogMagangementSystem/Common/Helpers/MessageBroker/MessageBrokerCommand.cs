@@ -3,7 +3,7 @@ using MediatR;
 using RabbitMQ.Client;
 using System.Text;
 
-namespace BlogMagangementSystem.Common.MessageBroker
+namespace BlogMagangementSystem.Common.Helpers.MessageBroker
 {
     public sealed record MessageBrokerCommand(string Message) : IRequest<MessageBrokerCommandResponse>;
 

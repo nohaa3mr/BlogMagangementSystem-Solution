@@ -1,5 +1,4 @@
 ﻿using BlogMagangementSystem.Common.Structures.ResponseStructure;
-using BlogMagangementSystem.Features.GetPostByIdFeature;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 

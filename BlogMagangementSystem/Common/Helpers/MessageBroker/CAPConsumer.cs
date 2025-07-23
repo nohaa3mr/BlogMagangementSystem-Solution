@@ -1,6 +1,6 @@
 ﻿using DotNetCore.CAP;
 
-namespace BlogMagangementSystem.Common.MessageBroker
+namespace BlogMagangementSystem.Common.Helpers.MessageBroker
 {
     public class CAPConsumer : ICapSubscribe
     {

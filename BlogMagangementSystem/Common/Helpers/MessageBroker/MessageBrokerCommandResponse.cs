@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace BlogMagangementSystem.Common.MessageBroker
+namespace BlogMagangementSystem.Common.Helpers.MessageBroker
 {
     public sealed record MessageBrokerCommandResponse(string Message, bool IsSuccess, string ErrorMessage = "") 
     {

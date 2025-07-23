@@ -2,7 +2,7 @@
 using BlogMagangementSystem.Common.Enums;
 using BlogMagangementSystem.Common.GenericRepository;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
-using BlogMagangementSystem.Features.GetPostByIdFeature;
+using BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature;
 using Mapster;
 using MediatR;
 
