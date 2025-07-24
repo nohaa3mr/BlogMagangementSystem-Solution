@@ -1,28 +1,4 @@
-﻿using BlogMagangementSystem.Common.Context;
-using BlogMagangementSystem.Common.ErrorHandling;
-using BlogMagangementSystem.Common.GenericRepository;
-using BlogMagangementSystem.Common.JWT_Service;
-using BlogMagangementSystem.Common.Middlewares;
-using BlogMagangementSystem.Common.Structures.RequestStructure;
-using BlogMagangementSystem.Common.Structures.ResponseStructure;
-using BlogMagangementSystem.Common.Validators.PostValidation;
-using BlogMagangementSystem.Features.PostFeatures.AddPostFeature;
-using BlogMagangementSystem.Features.PostFeatures.DeletePostFeature;
-using BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature;
-using BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature;
-using BlogMagangementSystem.Features.UserFeatures.HashingAlgorithm;
-using BlogMagangementSystem.Features.UserFeatures.Login;
-using BlogMagangementSystem.Features.UserFeatures.Registeration;
-using FluentValidation;
-using Hangfire;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using RabbitMQ.Client;
-using System.Configuration;
-
+﻿using BlogMagangementSystem.Common.EmailService;
 
 namespace BlogMagangementSystem.Common.ExtensionMethods
 {
@@ -38,7 +14,7 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
 
             Services.AddScoped(typeof(GenericRepository<>));
             Services.AddScoped<JWTService>();
-            Services.AddScoped<UserNameHaser>();
+            Services.AddScoped<UserNameHasher>();
             Services.AddScoped<PasswordHasher>();
             Services.AddScoped<IValidator<AddPostRequestViewModel>, AddPostRequestVMValidator>();
             Services.AddScoped<IValidator<UpdatePostRequestViewModel>, UpdatePostRequestVMValidator>();
@@ -69,6 +45,8 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
                 var factory = new ConnectionFactory { HostName = "localhost" }; // Adjust settings as needed
                 return factory.CreateConnectionAsync().GetAwaiter().GetResult();
             });
+          Services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+          Services.AddTransient<EmailService.EmailService>();
 
             Services.AddSingleton<IChannel>(sp =>
             {

@@ -1,6 +1,4 @@
-﻿using BlogMagangementSystem.Common.Entities;
-using Microsoft.EntityFrameworkCore;
-
+﻿
 namespace BlogMagangementSystem.Common.Context
 {
     public class BlogDbContext : DbContext

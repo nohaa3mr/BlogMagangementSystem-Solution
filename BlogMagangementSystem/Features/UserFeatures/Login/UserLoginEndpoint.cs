@@ -16,7 +16,7 @@ namespace BlogMagangementSystem.Features.UserFeatures.Login
             var validationResult = await ValidateAsync(model);
             if (!validationResult.IsSuccess)
             {
-                return EndpointResponse<UserLoginResponseViewModel>.Failure(validationResult.ErrorCode);
+                return EndpointResponse<UserLoginResponseViewModel>.Failure(validationResult.ErrorCode , validationResult.Message);
             }
             var command = model.Adapt<UserLoginDTO>();
             var result = await Mediator.Send(new UserLoginCommand(command));

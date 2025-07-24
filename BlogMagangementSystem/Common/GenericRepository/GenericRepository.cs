@@ -1,7 +1,4 @@
-﻿using BlogMagangementSystem.Common.Context;
-using BlogMagangementSystem.Common.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
 namespace BlogMagangementSystem.Common.GenericRepository

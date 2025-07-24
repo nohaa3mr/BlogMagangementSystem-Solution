@@ -1,5 +1,4 @@
-﻿using BlogMagangementSystem.Common.Enums;
-
+﻿
 namespace BlogMagangementSystem.Features.UserFeatures.Registeration
 {
     public class UserRegisterationRequestViewModel
