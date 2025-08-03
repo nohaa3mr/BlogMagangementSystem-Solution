@@ -1,6 +1,4 @@
-﻿using BlogMagangementSystem.Common.EmailService;
-
-namespace BlogMagangementSystem.Common.ExtensionMethods
+﻿namespace BlogMagangementSystem.Common.ExtensionMethods
 {
     public static class DependencyInjectionMethods
     {

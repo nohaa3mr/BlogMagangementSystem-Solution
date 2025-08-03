@@ -9,7 +9,6 @@ namespace BlogMagangementSystem.Common.Helpers.MessageBroker
         {
             string title = message.Title;
             string content = message.Content;
-            string messageBroker = message.Broker; 
 
             Console.WriteLine($"New post created: {title}");
         }

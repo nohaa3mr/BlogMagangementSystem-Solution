@@ -14,8 +14,13 @@
             if (request.Dto is null)
                 return RequestResult<AddPostDto>.Failure(ErrorCode.InvalidInput);
             await parameters.Mediator.Send(new AddPostCommand(request.Dto));
-      
-           await parameters.CapPublisher.PublishAsync("post.Iscreated",new {request.Dto.Title , request.Dto.Content , request.Dto.Message});
+
+            parameters.CapPublisher.Publish("post.Iscreated", new
+            {
+                request.Dto.Title,
+                request.Dto.Content
+            });
+
             return RequestResult<AddPostDto>.Success(data: request.Dto, message: "Post Added Successfully");
         }
     }
