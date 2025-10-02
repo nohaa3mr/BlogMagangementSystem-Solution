@@ -1,4 +1,4 @@
-﻿namespace BlogMagangementSystem.Orchestrators.AddPostOrchastrator
+﻿namespace BlogMagangementSystem.Features.PostFeatures.AddPostFeature.Commands
 {
     public sealed record AddPostOrchestrator(AddPostDto Dto) : IRequest<RequestResult<AddPostDto>>;
     public class AddPostOrchastratorHandler : BaseRequestHandler<AddPostOrchestrator, RequestResult<AddPostDto>>
@@ -13,14 +13,7 @@
         {
             if (request.Dto is null)
                 return RequestResult<AddPostDto>.Failure(ErrorCode.InvalidInput);
-            await parameters.Mediator.Send(new AddPostCommand(request.Dto));
-
-            parameters.CapPublisher.Publish("post.Iscreated", new
-            {
-                request.Dto.Title,
-                request.Dto.Content
-            });
-
+            await parameters.Mediator.Send(new AddPostCommand(request.Dto));         
             return RequestResult<AddPostDto>.Success(data: request.Dto, message: "Post Added Successfully");
         }
     }

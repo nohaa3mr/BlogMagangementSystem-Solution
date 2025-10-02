@@ -1,7 +1,7 @@
 ﻿using BlogMagangementSystem.Common.Entities;
 using BlogMagangementSystem.Common.Structures.RequestStructure;
 using BlogMagangementSystem.Common.Structures.ResponseStructure;
-using BlogMagangementSystem.Orchestrators.AddPostOrchastrator;
+using BlogMagangementSystem.Features.PostFeatures.AddPostFeature.Commands;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,7 @@ namespace BlogMagangementSystem.Features.PostFeatures.AddPostFeature
     {
         public AddPostEndpoint(BaseEndpointParameters<AddPostRequestViewModel> parameters ) :base(parameters){ }
 
-        [HttpPost("AddPost")]
+        [HttpPost("Post/Add")]
 
         public async Task<EndpointResponse<AddPostResponseViewModel>> AddPostAsync( AddPostRequestViewModel request)
         {
