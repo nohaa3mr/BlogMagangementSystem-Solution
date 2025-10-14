@@ -10,7 +10,7 @@ namespace BlogMagangementSystem.Features.UserFeatures.Login
         {
             
         }
-        [HttpPost("Login")]
+        [HttpPost("User/Login")]
         public async Task<EndpointResponse<UserLoginResponseViewModel>> Login(UserLoginRequestViewModel model)
         {
             var validationResult = await ValidateAsync(model);

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogMagangementSystem", "BlogMagangementSystem\BlogMagangementSystem.csproj", "{6FA60AA2-88AE-4D5C-8DD8-43C5BCB4CC2C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VerticalSlicingArch", "VerticalSlicingArch", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBrokerService", "MessageBrokerService\MessageBrokerService.csproj", "{76D90841-7BEE-41F5-A114-5A536E7C0F83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +19,17 @@ Global
 		{6FA60AA2-88AE-4D5C-8DD8-43C5BCB4CC2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FA60AA2-88AE-4D5C-8DD8-43C5BCB4CC2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FA60AA2-88AE-4D5C-8DD8-43C5BCB4CC2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76D90841-7BEE-41F5-A114-5A536E7C0F83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D90841-7BEE-41F5-A114-5A536E7C0F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D90841-7BEE-41F5-A114-5A536E7C0F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D90841-7BEE-41F5-A114-5A536E7C0F83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6FA60AA2-88AE-4D5C-8DD8-43C5BCB4CC2C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{76D90841-7BEE-41F5-A114-5A536E7C0F83} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5D5D1C8-3518-4394-8430-42B9D1489DE5}

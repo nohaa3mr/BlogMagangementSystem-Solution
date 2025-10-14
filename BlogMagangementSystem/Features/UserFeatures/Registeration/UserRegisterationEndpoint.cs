@@ -9,7 +9,7 @@ namespace BlogMagangementSystem.Features.UserFeatures.Registeration
     {
         public UserRegisterationEndpoint(BaseEndpointParameters<UserRegisterationRequestViewModel> parameters):base(parameters){}
 
-        [HttpPost("RegisterUser")]
+        [HttpPost("User/Registration")]
 
         public async Task<EndpointResponse<UserRegisterationResponseViewModel>> RegisterUserAsync(UserRegisterationRequestViewModel requestViewModel)
         {

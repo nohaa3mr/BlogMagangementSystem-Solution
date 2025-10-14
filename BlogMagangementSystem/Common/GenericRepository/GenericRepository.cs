@@ -23,9 +23,9 @@ namespace BlogMagangementSystem.Common.GenericRepository
             await UpdateInclude(item, nameof(BaseEntity.IsDeleted));
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public  Task<IQueryable<T>> GetAllAsync()
         {
-            return Task.FromResult(_dbSet.AsNoTracking().AsEnumerable().Where(X => X.IsDeleted is false && X.IsActive is true) );
+            return Task.FromResult(_dbSet.AsNoTracking().Where(X => X.IsDeleted == false && X.IsActive == true));
         }
 
         public async Task<IQueryable<T>> GetAllWithSpecAsync(Expression<Func<T, bool>> criteria)
