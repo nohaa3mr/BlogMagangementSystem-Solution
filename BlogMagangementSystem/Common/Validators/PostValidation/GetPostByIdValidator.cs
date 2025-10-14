@@ -7,9 +7,7 @@ namespace BlogMagangementSystem.Common.Validators.PostValidation
     {
         public GetPostByIdValidator()
         {
-            RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("Post Id cannot be empty.")
-                .GreaterThan(0).WithMessage("Post Id must be greater than zero.");
+            RuleFor(x => x.ID).NotEmpty().WithMessage("Post ID must not be empty");
         }
     }
 }

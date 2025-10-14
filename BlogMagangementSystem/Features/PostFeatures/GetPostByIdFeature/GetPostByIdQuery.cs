@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature
 {
-    public sealed record GetPostByIdQuery(int PostId) : IRequest<RequestResult<PostDTO>>;
+    public sealed record GetPostByIdQuery(Guid PostId) : IRequest<RequestResult<PostDTO>>;
     public class GetPostByIdQueryHandler : BaseRequestHandler<GetPostByIdQuery , RequestResult<PostDTO>>
     {
         private readonly GenericRepository<Post> _repository;
@@ -19,13 +19,13 @@ namespace BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature
         }
         public override async Task<RequestResult<PostDTO>> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
-            if(request.PostId<= 0)
+            if(request.PostId == Guid.Empty)
             {
                 return RequestResult<PostDTO>.Failure(ErrorCode.PostNotFound);
             }
             try
             {
-                var post = request.PostId > 0 ? await _repository.GetByIdAsync(request.PostId) : null;
+                var post = request.PostId != Guid.Empty  ? await _repository.GetByIdAsync(request.PostId) : null;
                 if (post is null || post.IsDeleted)
                 {
                     return RequestResult<PostDTO>.Failure(ErrorCode.PostNotFound);

@@ -10,7 +10,7 @@ namespace BlogMagangementSystem.Common.Context
         {
             modelBuilder.Entity<Post>()
                 .Property(p => p.Status)
-                .HasConversion<string>(); // 👈 This stores the enum as a string
+                .HasConversion<string>(); 
             modelBuilder.Entity<User>().Property(u => u.Role)
                 .HasConversion<string>(); // 👈 This stores the enum as a string
         }
@@ -19,6 +19,7 @@ namespace BlogMagangementSystem.Common.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Category> Categories { get; set; }
-       
-    }
+        public DbSet<Message> Messages { get; set; }
+
+        }
 }

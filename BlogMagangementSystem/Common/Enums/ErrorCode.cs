@@ -132,7 +132,7 @@ namespace BlogMagangementSystem.Common.Enums
         ExternalServiceUnavailable = 2000,
 
         [Description("API call limit exceeded")]
-        ApiCallLimitExceeded = 2001
-    
-}
+        ApiCallLimitExceeded = 2001,
+        PostsNotFound = 2002
+    }
 }

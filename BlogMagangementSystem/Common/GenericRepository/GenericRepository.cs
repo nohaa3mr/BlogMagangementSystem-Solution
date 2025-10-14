@@ -25,7 +25,7 @@ namespace BlogMagangementSystem.Common.GenericRepository
 
         public Task<IEnumerable<T>> GetAllAsync()
         {
-            return Task.FromResult(_dbSet.AsNoTracking().AsEnumerable().Where(X => X.IsDeleted is false));
+            return Task.FromResult(_dbSet.AsNoTracking().AsEnumerable().Where(X => X.IsDeleted is false && X.IsActive is true) );
         }
 
         public async Task<IQueryable<T>> GetAllWithSpecAsync(Expression<Func<T, bool>> criteria)
@@ -33,9 +33,9 @@ namespace BlogMagangementSystem.Common.GenericRepository
             return await Task.FromResult(_dbSet.AsNoTracking().Where(criteria));
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(Guid ID)
         {
-            return await Task.FromResult(_dbSet.FirstOrDefault(x => x.Id == id));
+            return await Task.FromResult(_dbSet.FirstOrDefault(x => x.ID == ID));
         }
 
         public async Task<T> GetByCriteriaAsync(Expression<Func<T, bool>> criteria)
@@ -43,13 +43,13 @@ namespace BlogMagangementSystem.Common.GenericRepository
 
         public async Task UpdateInclude(T entity, params string[] modifiedProperties)
         {
-            var local = _dbContext.Set<T>().Local.FirstOrDefault(x => x.Id == entity.Id);
+            var local = _dbContext.Set<T>().Local.FirstOrDefault(x => x.ID == entity.ID);
             EntityEntry entityEntry;
             if (local is null)
                 entityEntry = _dbContext.Entry(entity);
 
             else
-                entityEntry = _dbContext.ChangeTracker.Entries<T>().FirstOrDefault(X => X.Entity.Id == entity.Id)!;
+                entityEntry = _dbContext.ChangeTracker.Entries<T>().FirstOrDefault(X => X.Entity.ID  == entity.ID)!;
 
             foreach (var property in entityEntry.Properties)
             {

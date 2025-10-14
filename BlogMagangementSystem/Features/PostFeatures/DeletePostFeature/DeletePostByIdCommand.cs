@@ -1,11 +1,4 @@
-﻿using BlogMagangementSystem.Common.Entities;
-using BlogMagangementSystem.Common.Enums;
-using BlogMagangementSystem.Common.GenericRepository;
-using BlogMagangementSystem.Common.Structures.RequestStructure;
-using BlogMagangementSystem.Features.CommonDTOs;
-using Mapster;
-using MediatR;
-namespace BlogMagangementSystem.Features.PostFeatures.DeletePostFeature
+﻿namespace BlogMagangementSystem.Features.PostFeatures.DeletePostFeature
 {
     public sealed record DeletePostByIdCommand(PostDTO DTO) : IRequest<RequestResult<PostDTO>>;
     public class DeletePostByIdCommandHandler : BaseRequestHandler<DeletePostByIdCommand, RequestResult<PostDTO>>
@@ -18,9 +11,9 @@ namespace BlogMagangementSystem.Features.PostFeatures.DeletePostFeature
         }
         public override async Task<RequestResult<PostDTO>> Handle(DeletePostByIdCommand request, CancellationToken cancellationToken)
         {
-            if (request.DTO.Id <= 0) return RequestResult<PostDTO>.Failure(ErrorCode.InvalidInput);
+            if (request.DTO.ID  == Guid.Empty) return RequestResult<PostDTO>.Failure(ErrorCode.InvalidInput);
             var POST = request.DTO.Adapt<Post>();
-            var post = await _repository.GetByIdAsync(POST.Id);
+            var post = await _repository.GetByIdAsync(POST.ID);
             if (post is null)
                 return RequestResult<PostDTO>.Failure(ErrorCode.PostNotFound);
             await _repository.DeleteAsync(post);

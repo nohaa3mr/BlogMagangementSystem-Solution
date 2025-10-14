@@ -19,13 +19,13 @@ namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
         }
         public override async Task<RequestResult<UpdatePostDto>> Handle(UpdatePostByIdCommand request, CancellationToken cancellationToken)
         {
-            if (request.DTO is null||request.DTO.Id <= 0)
+            if (request.DTO is null||request.DTO.ID == Guid.Empty)
             {
                 return RequestResult<UpdatePostDto>.Failure(ErrorCode.InvalidInput);
             }            
             try
             {
-                var QueryResult = await _mediator.Send(new GetPostByIdQuery(request.DTO.Id));
+                var QueryResult = await _mediator.Send(new GetPostByIdQuery(request.DTO.ID));
 
                 if (!QueryResult.IsSuccess)
                 {

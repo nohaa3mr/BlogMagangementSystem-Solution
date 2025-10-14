@@ -1,4 +1,6 @@
-﻿namespace BlogMagangementSystem.Common.ExtensionMethods
+﻿using BlogMagangementSystem.Features.PostFeatures.GetAllPosts;
+
+namespace BlogMagangementSystem.Common.ExtensionMethods
 {
     public static class DependencyInjectionMethods
     {
@@ -20,6 +22,7 @@
             Services.AddScoped<IValidator<DeletePostRequestViewModel>, DeletePostRequesVMValidator>();
             Services.AddScoped<IValidator<UserRegisterationRequestViewModel>,UserRequestVmValidator>();
             Services.AddScoped<IValidator<UserLoginRequestViewModel>, LoginRequestViewModelValidator>();   
+            Services.AddScoped<IValidator<GetAllPostsRequestViewModel> , GetAllPostsRequestValidator>();
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
                   typeof(Program).Assembly

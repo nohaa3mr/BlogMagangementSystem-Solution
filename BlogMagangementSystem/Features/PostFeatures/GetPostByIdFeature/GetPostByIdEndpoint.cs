@@ -10,9 +10,9 @@ namespace BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature
         {
         }
         [HttpGet("GetPostById/{PostId}")]
-        public async Task<EndpointResponse<GetPostByIdResponseViewModel>> GetPostByIdAsync(int PostId)
+        public async Task<EndpointResponse<GetPostByIdResponseViewModel>> GetPostByIdAsync(Guid PostId)
         {
-            var RequestViewModel = new GetPostByIdRequestViewModel { Id = PostId };
+            var RequestViewModel = new GetPostByIdRequestViewModel { ID = PostId };
             var validationResponse = await ValidateAsync(RequestViewModel);
             if (!validationResponse.IsSuccess)
             {
