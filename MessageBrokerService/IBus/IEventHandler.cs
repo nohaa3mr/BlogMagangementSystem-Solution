@@ -1,6 +1,6 @@
 ﻿using MessageBrokerService.Events;
 
-namespace MessageBrokerService.Bus
+namespace MessageBrokerService.IBus
 {
     public interface IEventHandler<in TEvent> where TEvent : Event
     {
