@@ -29,7 +29,6 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
               )
           );
             Services.AddScoped<ExceptionMiddleware>();
-            Services.AddScoped<SerilogMiddleware>();
             Services.AddScoped<GlobalTransactionMiddleware>();
             Services.AddScoped<BaseRequestParameters>();
             Services.AddScoped(typeof(BaseEndpointParameters<>));

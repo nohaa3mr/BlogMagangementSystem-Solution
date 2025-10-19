@@ -42,7 +42,6 @@ namespace BlogMagangementSystem
             app.UseHttpsRedirection();
 
             app.UseMiddleware<ExceptionMiddleware>();
-            app.UseMiddleware<SerilogMiddleware>();
             app.UseMiddleware<GlobalTransactionMiddleware>();   
             app.UseHangfireDashboard("/hangfire");
 
