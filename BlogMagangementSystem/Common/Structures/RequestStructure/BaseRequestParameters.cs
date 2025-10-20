@@ -1,6 +1,4 @@
-﻿
-
-using DotNetCore.CAP;
+﻿using DotNetCore.CAP;
 
 namespace BlogMagangementSystem.Common.Structures.RequestStructure
 {
@@ -26,6 +24,16 @@ namespace BlogMagangementSystem.Common.Structures.RequestStructure
             _userNameHasher = userNameHasher;
             _jwtService = jwtService;
             _capPublisher = capPublisher;
+        }
+        public BaseRequestParameters(UserNameHasher userNameHasher , PasswordHasher passwordHasher , JWTService jwtService)
+        {
+            _userNameHasher = userNameHasher;
+            _passwordHasher = passwordHasher;
+            _jwtService = jwtService;
+        }
+        public BaseRequestParameters()
+        {
+            
         }
     }
 }

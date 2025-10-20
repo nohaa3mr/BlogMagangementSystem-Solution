@@ -15,7 +15,7 @@ namespace BlogMagangementSystem.Common.GenericRepository
         Task<IEnumerable<T>> Get(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties);
         Task<IEnumerable<T>> GetAllAsync();
         Task<IQueryable<T>> GetAllWithSpecAsync(Expression<Func<T, bool>> criteria);
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(string id);
         Task<T> GetBySpecAsync(Expression<Func<T, bool>> criteria);
 
     }

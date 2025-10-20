@@ -43,7 +43,7 @@ namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
             }
             catch (Exception)
             {
-                return RequestResult<UpdatePostDto>.Failure(ErrorCode.DatabaseError);
+                return RequestResult<UpdatePostDto>.Failure(ErrorCode.InvalidPostData);
             }
         }
     }

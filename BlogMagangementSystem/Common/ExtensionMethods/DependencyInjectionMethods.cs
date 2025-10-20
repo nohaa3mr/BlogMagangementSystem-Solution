@@ -1,4 +1,5 @@
 ﻿using BlogMagangementSystem.Features.PostFeatures.GetAllPosts;
+using BlogMagangementSystem.Features.UserFeatures.GetUserRoleByUserID;
 
 namespace BlogMagangementSystem.Common.ExtensionMethods
 {
@@ -16,6 +17,7 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
             Services.AddScoped<JWTService>();
             Services.AddScoped<UserNameHasher>();
             Services.AddScoped<PasswordHasher>();
+            Services.AddScoped<IValidator<GetUserRoleByIDRequestViewModel>, GetUserRoleByIDRequestViewModelValidator>();
             Services.AddScoped<IValidator<AddPostRequestViewModel>, AddPostRequestVMValidator>();
             Services.AddScoped<IValidator<UpdatePostRequestViewModel>, UpdatePostRequestVMValidator>();
             Services.AddScoped<IValidator<GetPostByIdRequestViewModel>, GetPostByIdValidator>();
@@ -23,6 +25,7 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
             Services.AddScoped<IValidator<UserRegisterationRequestViewModel>,UserRequestVmValidator>();
             Services.AddScoped<IValidator<UserLoginRequestViewModel>, LoginRequestViewModelValidator>();   
             Services.AddScoped<IValidator<GetAllPostsRequestViewModel> , GetAllPostsRequestValidator>();
+
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
                   typeof(Program).Assembly
@@ -46,7 +49,7 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
                 return factory.CreateConnectionAsync().GetAwaiter().GetResult();
             });
           Services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
-          Services.AddTransient<EmailService.EmailService>();
+       //   Services.AddTransient<EmailService.EmailService>();
 
             Services.AddSingleton<IChannel>(sp =>
             {

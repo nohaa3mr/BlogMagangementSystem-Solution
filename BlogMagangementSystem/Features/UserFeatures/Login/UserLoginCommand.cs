@@ -33,7 +33,7 @@
 
             };
             var Data = ResultDto.Adapt<UserLoginDTO>();
-            BackgroundJob.Enqueue<EmailService>(service => service.SendWelcomeEmail(user.Email));
+         //   BackgroundJob.Enqueue<EmailService>(service => service.SendWelcomeEmail(user.Email));
             return RequestResult<UserLoginDTO>.Success
             (
                 data:Data ,

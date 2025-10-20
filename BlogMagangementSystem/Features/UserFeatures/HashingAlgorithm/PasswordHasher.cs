@@ -2,7 +2,7 @@
 
 namespace BlogMagangementSystem.Features.UserFeatures.HashingAlgorithm
 {
-    public sealed class PasswordHasher
+    public class PasswordHasher
     {
         private readonly int SaltSize = 16;
         private readonly int HashSize = 20;

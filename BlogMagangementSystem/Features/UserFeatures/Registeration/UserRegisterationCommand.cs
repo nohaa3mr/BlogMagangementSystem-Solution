@@ -16,7 +16,12 @@ namespace BlogMagangementSystem.Features.UserFeatures.Registeration
         {
             if(request.UserDto is null) 
             return RequestResult<UserDto>.Failure(ErrorCode.UserAuthenticationFailed);
-        
+            if( await _repository.ExistsAsync(u => u.Email == request.UserDto.Email))
+            {
+                return RequestResult<UserDto>.Failure(ErrorCode.UserAlreadyExists);
+            }
+
+
             var userDto = new UserDto
             {
                 FirstName = request.UserDto.FirstName,
@@ -36,7 +41,7 @@ namespace BlogMagangementSystem.Features.UserFeatures.Registeration
                 await _repository.SaveChangesAsync();
                 userDto = user.Adapt<UserDto>();
                 userDto.Token =await parameters.JwtService.GetTokenAsync(user.Username , user.Email, user.Role);
-                BackgroundJob.Enqueue<EmailService>(service => service.SendWelcomeEmail(user.Email));
+                //BackgroundJob.Enqueue<EmailService>(service => service.SendWelcomeEmail(user.Email));
                 return RequestResult<UserDto>.Success
                 (
                     data: userDto,

@@ -12,7 +12,7 @@ namespace BlogMagangementSystem.Common.GenericRepository
             _dbContext = dbContext;
             _dbSet = dbContext.Set<T>();
         }
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
         }
@@ -33,7 +33,7 @@ namespace BlogMagangementSystem.Common.GenericRepository
             return await Task.FromResult(_dbSet.AsNoTracking().Where(criteria));
         }
 
-        public async Task<T> GetByIdAsync(Guid ID)
+        public virtual async Task<T> GetByIdAsync(Guid ID)
         {
             return await Task.FromResult(_dbSet.FirstOrDefault(x => x.ID == ID));
         }
@@ -78,7 +78,7 @@ namespace BlogMagangementSystem.Common.GenericRepository
             await _dbContext.AddRangeAsync(entities);
         }
 
-        public async Task<int> SaveChangesAsync()
+        public virtual async Task<int> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync();
         }
@@ -119,7 +119,7 @@ namespace BlogMagangementSystem.Common.GenericRepository
 
             return await query.ToListAsync();
         }
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.AnyAsync(predicate);
         }
