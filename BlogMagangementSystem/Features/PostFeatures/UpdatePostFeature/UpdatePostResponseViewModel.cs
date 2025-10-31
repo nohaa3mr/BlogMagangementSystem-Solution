@@ -1,15 +1,13 @@
-﻿namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
+﻿namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature;
+
+public class UpdatePostResponseViewModel
 {
-    public class UpdatePostResponseViewModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public string Username { get; set; }
-        public ICollection<string> Comments { get; set; } = new HashSet<string>();
-        public ICollection<string> Tags { get; set; } = new HashSet<string>();
+    public Guid ID { get; set; }
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public ICollection<string> Comments { get; set; } = new HashSet<string>();
+    public ICollection<string> Tags { get; set; } = new HashSet<string>();
 
 
-    }
 }

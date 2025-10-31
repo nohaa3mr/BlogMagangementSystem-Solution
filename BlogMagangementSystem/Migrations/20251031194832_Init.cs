@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BlogMagangementSystem.Common.Migrations
+namespace BlogMagangementSystem.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -12,7 +12,7 @@ namespace BlogMagangementSystem.Common.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Category",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -25,11 +25,11 @@ namespace BlogMagangementSystem.Common.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.ID);
+                    table.PrimaryKey("PK_Category", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "Message",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -43,11 +43,29 @@ namespace BlogMagangementSystem.Common.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.ID);
+                    table.PrimaryKey("PK_Message", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Role",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Permissions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -57,7 +75,7 @@ namespace BlogMagangementSystem.Common.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MessageID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -68,16 +86,22 @@ namespace BlogMagangementSystem.Common.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.ID);
+                    table.PrimaryKey("PK_User", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Users_Messages_MessageID",
+                        name: "FK_User_Message_MessageID",
                         column: x => x.MessageID,
-                        principalTable: "Messages",
+                        principalTable: "Message",
                         principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_User_Role_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "Role",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Post",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -93,21 +117,21 @@ namespace BlogMagangementSystem.Common.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.ID);
+                    table.PrimaryKey("PK_Post", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Posts_Categories_CategoryID",
+                        name: "FK_Post_Category_CategoryID",
                         column: x => x.CategoryID,
-                        principalTable: "Categories",
+                        principalTable: "Category",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Posts_Users_UserID",
+                        name: "FK_Post_User_UserID",
                         column: x => x.UserID,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "Comment",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -121,17 +145,17 @@ namespace BlogMagangementSystem.Common.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.ID);
+                    table.PrimaryKey("PK_Comment", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
+                        name: "FK_Comment_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tags",
+                name: "Tag",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -145,60 +169,68 @@ namespace BlogMagangementSystem.Common.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.ID);
+                    table.PrimaryKey("PK_Tag", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Tags_Posts_PostID",
+                        name: "FK_Tag_Post_PostID",
                         column: x => x.PostID,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "ID");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
-                table: "Comments",
+                name: "IX_Comment_PostId",
+                table: "Comment",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_CategoryID",
-                table: "Posts",
+                name: "IX_Post_CategoryID",
+                table: "Post",
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserID",
-                table: "Posts",
+                name: "IX_Post_UserID",
+                table: "Post",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tags_PostID",
-                table: "Tags",
+                name: "IX_Tag_PostID",
+                table: "Tag",
                 column: "PostID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_MessageID",
-                table: "Users",
+                name: "IX_User_MessageID",
+                table: "User",
                 column: "MessageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_RoleID",
+                table: "User",
+                column: "RoleID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Tag");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Post");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "Message");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

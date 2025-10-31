@@ -11,14 +11,12 @@ namespace BlogMagangementSystem.Common.Context
             modelBuilder.Entity<Post>()
                 .Property(p => p.Status)
                 .HasConversion<string>(); 
-            modelBuilder.Entity<User>().Property(u => u.Role)
-                .HasConversion<string>();
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+        public DbSet<Category> Category{ get; set; }
+        public DbSet<Message> Message { get; set; }
     }
 }

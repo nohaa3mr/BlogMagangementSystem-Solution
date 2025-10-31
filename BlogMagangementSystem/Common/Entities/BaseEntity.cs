@@ -2,7 +2,7 @@
 {
     public class BaseEntity 
     {
-        public Guid ID { get; set; } = new Guid();
+        public Guid ID { get; set; } = UUID.New();
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;

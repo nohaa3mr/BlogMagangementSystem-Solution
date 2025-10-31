@@ -9,6 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\RoleFilter\**" />
+    <Content Remove="Features\RoleFilter\**" />
+    <EmbeddedResource Remove="Features\RoleFilter\**" />
+    <None Remove="Features\RoleFilter\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="DotNetCore.CAP" Version="8.3.5" />
     <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="8.3.5" />
     <PackageReference Include="DotNetCore.CAP.SqlServer" Version="8.3.5" />
@@ -44,10 +53,9 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="8.2.2" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\RoleFilter\" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="UUID" Version="1.1.1" />
+    <PackageReference Include="UUID.Serialization.Newtonsoft" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

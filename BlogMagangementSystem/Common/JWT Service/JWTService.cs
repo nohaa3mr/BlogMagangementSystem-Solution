@@ -20,7 +20,7 @@ namespace BlogMagangementSystem.Common.JWT_Service
             {
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role,((int) role.GetValueOrDefault()).ToString())
+                new Claim(ClaimTypes.Role,(role.GetType()).ToString())
             };
 
             var authKeyString = _configuration["Jwt:Key"];

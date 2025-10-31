@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BlogMagangementSystem.Common.Migrations
+namespace BlogMagangementSystem.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20251014094909_Init")]
+    [Migration("20251031194832_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace BlogMagangementSystem.Common.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Comment", b =>
@@ -88,7 +88,7 @@ namespace BlogMagangementSystem.Common.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Message", b =>
@@ -121,7 +121,7 @@ namespace BlogMagangementSystem.Common.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Post", b =>
@@ -166,7 +166,42 @@ namespace BlogMagangementSystem.Common.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Role", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Permissions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Tag", b =>
@@ -202,7 +237,7 @@ namespace BlogMagangementSystem.Common.Migrations
 
                     b.HasIndex("PostID");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.User", b =>
@@ -249,9 +284,8 @@ namespace BlogMagangementSystem.Common.Migrations
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("RoleID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -264,7 +298,9 @@ namespace BlogMagangementSystem.Common.Migrations
 
                     b.HasIndex("MessageID");
 
-                    b.ToTable("Users");
+                    b.HasIndex("RoleID");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Comment", b =>
@@ -301,6 +337,14 @@ namespace BlogMagangementSystem.Common.Migrations
                     b.HasOne("BlogMagangementSystem.Common.Entities.Message", null)
                         .WithMany("Users")
                         .HasForeignKey("MessageID");
+
+                    b.HasOne("BlogMagangementSystem.Common.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Category", b =>
@@ -316,6 +360,11 @@ namespace BlogMagangementSystem.Common.Migrations
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Post", b =>
                 {
                     b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("BlogMagangementSystem.Common.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("BlogMagangementSystem.Common.Entities.User", b =>

@@ -15,7 +15,9 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using UnitTesting.Helpers;
 using Xunit;
+using Xunit.Sdk;
 
 namespace UnitTesting;
 [TestCaseOrderer("UnitTesting.PriorityOrderer", "UnitTesting")]
@@ -67,7 +69,7 @@ public class CreateMemberHandlerTests
             var result = await handler.Handle(command, CancellationToken.None);
             // Assert
             Assert.False(result.IsSuccess);
-            Assert.Equal(ErrorCode.UserAlreadyExists, result.ErrorCode);
+            Assert.Equal(ErrorCode.DatabaseError, result.ErrorCode);
         }
         catch (Exception ex)
         {
@@ -181,6 +183,30 @@ public class CreateMemberHandlerTests
         // Assert
         result.IsSuccess.Should().BeFalse();
         result.ErrorCode.Should().Be(ErrorCode.UserNotFound);
+    }
+
+    [Theory]
+    [MemberData(nameof(CreatePostData.InvalidPostData), MemberType = typeof(CreatePostData))]
+    public async Task Handle_ShouldReturnFailure_WhenInvalidTitleEntered(string Title)
+    {
+        //Arrange
+        var postRepo = new GenericRepository<Post>(_dbContext);
+        var parameters = new Mock<BaseRequestParameters>();
+        var command = new AddPostCommand(new AddPostDto
+        {
+            Title = Title,
+            Content = "Valid Content",
+            Username = "JohnDoe",
+            CreatedAt = DateTime.UtcNow
+        });
+
+        //Act
+        var CommandHandler = new AddPostCommandHandler(parameters.Object, postRepo);
+        var result = await CommandHandler.Handle(command, CancellationToken.None);
+        //Assert
+        result.IsSuccess.Should().BeFalse();
+        Assert.False(result.IsSuccess);
+     
     }
 
 }

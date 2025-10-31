@@ -7,8 +7,8 @@ namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
     public class UpdatePostEndpoint :BaseEndpoint<UpdatePostRequestViewModel,UpdatePostResponseViewModel>
     {
         public UpdatePostEndpoint(BaseEndpointParameters<UpdatePostRequestViewModel> parameters): base(parameters){}
-        [HttpPut("UpdatePost/{Id}")]
-        public async Task<EndpointResponse<UpdatePostResponseViewModel>> UpdatePostAsync(UpdatePostRequestViewModel requestViewModel)
+        [HttpPut("Post/Update")]
+        public async Task<EndpointResponse<UpdatePostResponseViewModel>> UpdatePostAsync([FromBody]UpdatePostRequestViewModel requestViewModel)
         { 
             var validationResult = await ValidateAsync(requestViewModel);
             if (!validationResult.IsSuccess)

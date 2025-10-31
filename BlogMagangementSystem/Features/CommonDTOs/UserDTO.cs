@@ -16,7 +16,7 @@ namespace BlogMagangementSystem.Features.CommonDTOs
         public string Password { get; set; }
 
         public string? Token { get; set; }
-        public Role Role { get; set; } = Role.User; // Default role is User
+        public Role Role { get; set; }
 
         public string Address { get; set; }
     }

@@ -1,12 +1,4 @@
-﻿using BlogMagangementSystem.Common.Entities;
-using BlogMagangementSystem.Common.Enums;
-using BlogMagangementSystem.Common.GenericRepository;
-using BlogMagangementSystem.Common.Structures.RequestStructure;
-using BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature;
-using Mapster;
-using MediatR;
-
-namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
+﻿namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
 {
     public sealed record UpdatePostByIdCommand(UpdatePostDto DTO) :IRequest<RequestResult<UpdatePostDto>>;
     public class UpdatePostByIdCommandHandler : BaseRequestHandler<UpdatePostByIdCommand, RequestResult<UpdatePostDto>>
@@ -32,9 +24,9 @@ namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
                     return RequestResult<UpdatePostDto>.Failure(ErrorCode.PostNotFound);
                 }
 
-                var Post = QueryResult.Data.Adapt<Post>();
-                await _repository.UpdateInclude(Post);
-                var result = Post.Adapt<UpdatePostDto>();
+                var post = QueryResult.Data.Adapt<Post>();
+                await _repository.UpdateAsync(post);
+                var result = post.Adapt<UpdatePostDto>();
                 return RequestResult<UpdatePostDto>.Success
                 (
                     data: result, 
