@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">📝 Blog Management System</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/users.html">Users</a></li>
+                <li><a href="/pages/blogposts.html" class="active">Blog Posts</a></li>
+                <li><a href="/pages/comments.html">Comments</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Blog Posts Management</h1>
+            <button id="createPostBtn" class="btn btn-primary">+ Create Post</button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading posts...</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">All Blog Posts</h2>
+            </div>
+            <div class="table-container">
+                <table id="postsTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div id="createPostModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Blog Post</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="createPostForm">
+                <div class="form-group">
+                    <label class="form-label" for="authorId">Author *</label>
+                    <select id="authorId" name="authorId" class="form-control" required>
+                        <option value="">Select Author</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="createTitle">Title *</label>
+                    <input type="text" id="createTitle" name="title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="createSlug">Slug *</label>
+                    <input type="text" id="createSlug" name="slug" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="createCategory">Category</label>
+                    <input type="text" id="createCategory" name="category" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="createExcerpt">Excerpt</label>
+                    <textarea id="createExcerpt" name="excerpt" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="createContent">Content *</label>
+                    <textarea id="createContent" name="content" class="form-control" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="createIsPublished" name="isPublished">
+                        <label for="createIsPublished">Publish immediately</label>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('createPostModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Post Modal -->
+    <div id="editPostModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Blog Post</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="editPostForm">
+                <input type="hidden" id="editPostId" name="postId">
+                <div class="form-group">
+                    <label class="form-label" for="editAuthorId">Author *</label>
+                    <select id="editAuthorId" name="authorId" class="form-control" required>
+                        <option value="">Select Author</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editTitle">Title *</label>
+                    <input type="text" id="editTitle" name="title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editSlug">Slug *</label>
+                    <input type="text" id="editSlug" name="slug" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editCategory">Category</label>
+                    <input type="text" id="editCategory" name="category" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editExcerpt">Excerpt</label>
+                    <textarea id="editExcerpt" name="excerpt" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editContent">Content *</label>
+                    <textarea id="editContent" name="content" class="form-control" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="editIsPublished" name="isPublished">
+                        <label for="editIsPublished">Published</label>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('editPostModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/blogposts.js"></script>
+</body>
+</html>
+

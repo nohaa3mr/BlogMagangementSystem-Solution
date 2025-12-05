@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">📝 Blog Management System</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/users.html">Users</a></li>
+                <li><a href="/pages/blogposts.html">Blog Posts</a></li>
+                <li><a href="/pages/comments.html" class="active">Comments</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Comments Management</h1>
+            <button id="createCommentBtn" class="btn btn-primary">+ Create Comment</button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading comments...</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">All Comments</h2>
+            </div>
+            <div class="table-container">
+                <table id="commentsTable">
+                    <thead>
+                        <tr>
+                            <th>Post</th>
+                            <th>Author</th>
+                            <th>Content</th>
+                            <th>Type</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Comment Modal -->
+    <div id="createCommentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Comment</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="createCommentForm">
+                <div class="form-group">
+                    <label class="form-label" for="postId">Post *</label>
+                    <select id="postId" name="postId" class="form-control" required>
+                        <option value="">Select Post</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="authorName">Author Name</label>
+                    <input type="text" id="authorName" name="authorName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="authorEmail">Author Email</label>
+                    <input type="email" id="authorEmail" name="authorEmail" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="content">Content *</label>
+                    <textarea id="content" name="content" class="form-control" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="parentCommentId">Parent Comment ID (for replies)</label>
+                    <input type="text" id="parentCommentId" name="parentCommentId" class="form-control" placeholder="Leave empty for top-level comment">
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('createCommentModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Comment Modal -->
+    <div id="editCommentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Comment</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="editCommentForm">
+                <input type="hidden" id="editCommentId" name="commentId">
+                <input type="hidden" id="editPostId" name="postId">
+                <div class="form-group">
+                    <label class="form-label" for="editAuthorName">Author Name</label>
+                    <input type="text" id="editAuthorName" name="authorName" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editAuthorEmail">Author Email</label>
+                    <input type="email" id="editAuthorEmail" name="authorEmail" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editContent">Content *</label>
+                    <textarea id="editContent" name="content" class="form-control" rows="4" required></textarea>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('editCommentModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/comments.js"></script>
+</body>
+</html>
+

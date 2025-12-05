@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Broker Service - Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">📝 Blog Management System</a>
+            <ul class="nav-links">
+                <li><a href="/index.html" class="active">Home</a></li>
+                <li><a href="/pages/users.html">Users</a></li>
+                <li><a href="/pages/blogposts.html">Blog Posts</a></li>
+                <li><a href="/pages/comments.html">Comments</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Welcome to Message Broker Service</h2>
+            </div>
+            <p>This application demonstrates the CAP library for event-driven messaging with RabbitMQ.</p>
+            <p>Use the navigation menu above to manage:</p>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li><strong>Users</strong> - Register, update, and manage users (publishes UserRegisteredEvent, UserProfileUpdatedEvent)</li>
+                <li><strong>Blog Posts</strong> - Create, edit, and publish blog posts (publishes BlogPostCreatedEvent, BlogPostPublishedEvent)</li>
+                <li><strong>Comments</strong> - Add comments to blog posts (publishes CommentAddedEvent)</li>
+            </ul>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">🔔 Event Subscribers</h3>
+                <p>All actions trigger CAP events that are consumed by:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>NotificationSubscriber</li>
+                    <li>CacheInvalidationSubscriber</li>
+                    <li>AnalyticsSubscriber</li>
+                    <li>IntegrationSubscriber</li>
+                    <li>AuditLogSubscriber</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">⚡ Quick Actions</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <a href="/pages/users.html" class="btn btn-primary">Manage Users</a>
+                    <a href="/pages/blogposts.html" class="btn btn-primary">Manage Blog Posts</a>
+                    <a href="/pages/comments.html" class="btn btn-primary">Manage Comments</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">📚 How It Works</h3>
+                <p>When you perform CRUD operations:</p>
+                <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>API endpoint receives request</li>
+                    <li>Business logic executes</li>
+                    <li>CAP event is published</li>
+                    <li>RabbitMQ distributes to subscribers</li>
+                    <li>Subscribers process asynchronously</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
