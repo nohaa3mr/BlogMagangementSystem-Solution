@@ -1,3 +1,7 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using BlogMagangementSystem.Common.Helpers;
+
 namespace BlogMagangementSystem
 {
     public class Program
@@ -7,8 +11,14 @@ namespace BlogMagangementSystem
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddServices(builder.Configuration);
+            
+            // Configure Autofac as the service provider
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+            {
+                containerBuilder.RegisterModule<AutofacModule>();
+            });
             builder. Logging.AddConsole();
             builder. Logging.AddDebug();
             builder.Logging.ClearProviders();

@@ -1,5 +1,6 @@
-﻿using BlogMagangementSystem.Features.PostFeatures.GetAllPosts;
-using BlogMagangementSystem.Features.UserFeatures.GetUserRoleByUserID;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using BlogMagangementSystem.Common.Helpers;
 using System.Text;
 
 namespace BlogMagangementSystem.Common.ExtensionMethods
@@ -18,27 +19,9 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
             Services.AddScoped<JWTService>();
             Services.AddScoped<UserNameHasher>();
             Services.AddScoped<PasswordHasher>();
-            Services.AddScoped<IValidator<GetUserRoleByIDRequestViewModel>, GetUserRoleByIDRequestViewModelValidator>();
-            Services.AddScoped<IValidator<AddPostRequestViewModel>, AddPostRequestVMValidator>();
-            Services.AddScoped<IValidator<UpdatePostRequestViewModel>, UpdatePostRequestVMValidator>();
-            Services.AddScoped<IValidator<GetPostByIdRequestViewModel>, GetPostByIdValidator>();
-            Services.AddScoped<IValidator<DeletePostRequestViewModel>, DeletePostRequesVMValidator>();
-            Services.AddScoped<IValidator<UserRegisterationRequestViewModel>,UserRequestVmValidator>();
-            Services.AddScoped<IValidator<UserLoginRequestViewModel>, LoginRequestViewModelValidator>();   
-            Services.AddScoped<IValidator<GetAllPostsRequestViewModel> , GetAllPostsRequestValidator>();
             
-            // Comment validators
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.CreateComment.ViewModels.CreateCommentRequestViewModel>, BlogMagangementSystem.Features.Comments.CreateComment.CreateCommentValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.GetCommentById.GetCommentByIdRequestViewModel>, BlogMagangementSystem.Features.Comments.GetCommentById.GetCommentByIdValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.GetAllComments.GetAllCommentsRequestViewModel>, BlogMagangementSystem.Features.Comments.GetAllComments.GetAllCommentsValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.UpdateComment.UpdateCommentRequestViewModel>, BlogMagangementSystem.Features.Comments.UpdateComment.UpdateCommentValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.DeleteComment.DeleteCommentRequestViewModel>, BlogMagangementSystem.Features.Comments.DeleteComment.DeleteCommentValidator>();
-            
-            // User validators
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.GetUserById.GetUserByIdRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.GetUserById.GetUserByIdValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.GetAllUsers.GetAllUsersRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.GetAllUsers.GetAllUsersValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.UpdateUser.UpdateUserRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.UpdateUser.UpdateUserValidator>();
-            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.DeleteUser.DeleteUserRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.DeleteUser.DeleteUserValidator>();
+            // Note: All validators are now automatically registered via AutofacModule
+            // No need to manually register each validator here
 
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
