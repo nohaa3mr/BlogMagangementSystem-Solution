@@ -1,6 +1,6 @@
-﻿namespace BlogMagangementSystem.Features.Comments.CreateComment.ViewModels
+namespace BlogMagangementSystem.Features.Comments.GetAllComments
 {
-    public class CreateCommentResponseViewModel
+    public class GetAllCommentsResponseViewModel
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
@@ -9,3 +9,4 @@
         public DateTime CreatedAt { get; set; }
     }
 }
+

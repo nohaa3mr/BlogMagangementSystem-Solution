@@ -1,5 +1,6 @@
 ﻿using BlogMagangementSystem.Features.PostFeatures.GetAllPosts;
 using BlogMagangementSystem.Features.UserFeatures.GetUserRoleByUserID;
+using System.Text;
 
 namespace BlogMagangementSystem.Common.ExtensionMethods
 {
@@ -25,6 +26,19 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
             Services.AddScoped<IValidator<UserRegisterationRequestViewModel>,UserRequestVmValidator>();
             Services.AddScoped<IValidator<UserLoginRequestViewModel>, LoginRequestViewModelValidator>();   
             Services.AddScoped<IValidator<GetAllPostsRequestViewModel> , GetAllPostsRequestValidator>();
+            
+            // Comment validators
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.CreateComment.ViewModels.CreateCommentRequestViewModel>, BlogMagangementSystem.Features.Comments.CreateComment.CreateCommentValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.GetCommentById.GetCommentByIdRequestViewModel>, BlogMagangementSystem.Features.Comments.GetCommentById.GetCommentByIdValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.GetAllComments.GetAllCommentsRequestViewModel>, BlogMagangementSystem.Features.Comments.GetAllComments.GetAllCommentsValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.UpdateComment.UpdateCommentRequestViewModel>, BlogMagangementSystem.Features.Comments.UpdateComment.UpdateCommentValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.Comments.DeleteComment.DeleteCommentRequestViewModel>, BlogMagangementSystem.Features.Comments.DeleteComment.DeleteCommentValidator>();
+            
+            // User validators
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.GetUserById.GetUserByIdRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.GetUserById.GetUserByIdValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.GetAllUsers.GetAllUsersRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.GetAllUsers.GetAllUsersValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.UpdateUser.UpdateUserRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.UpdateUser.UpdateUserValidator>();
+            Services.AddScoped<IValidator<BlogMagangementSystem.Features.UserFeatures.DeleteUser.DeleteUserRequestViewModel>, BlogMagangementSystem.Features.UserFeatures.DeleteUser.DeleteUserValidator>();
 
             Services.AddMediatR(cfg =>
               cfg.RegisterServicesFromAssemblies(
@@ -71,19 +85,34 @@ namespace BlogMagangementSystem.Common.ExtensionMethods
 
                 });
             });
+            var jwtKey = Configuration["Jwt:Key"];
+            if (string.IsNullOrEmpty(jwtKey) || jwtKey.Length < 32)
+            {
+                throw new ArgumentException("JWT Key must be at least 32 characters long");
+            }
+
             Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
              .AddJwtBearer(options =>
              {
-             options.Authority= "https://your-auth-server.com"; // OAuth2 provider (e.g. Auth0, Azure AD, IdentityServer)
-             options.Audience = "http://localhost:7185/"; 
-             options.TokenValidationParameters = new TokenValidationParameters
-             {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true
-            };
-    });
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = Configuration["Jwt:Issuer"],
+                     ValidAudience = Configuration["Jwt:Audience"],
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                 };
+             });
+
+            // Add Authorization Policies
+            Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserOrAdmin", policy => policy.RequireRole("User", "Admin"));
+                options.AddPolicy("Authenticated", policy => policy.RequireAuthenticatedUser());
+            });
             #region ApiValidationError
             Services.Configure<ApiBehaviorOptions>(opthion =>
             {

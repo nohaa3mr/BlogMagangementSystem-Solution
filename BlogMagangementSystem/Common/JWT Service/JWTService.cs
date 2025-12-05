@@ -14,14 +14,25 @@ namespace BlogMagangementSystem.Common.JWT_Service
         {
             _configuration = configuration;
         }
-        public Task<string> GetTokenAsync(string userName,string email, Role? role)
+        public Task<string> GetTokenAsync(string userName, string email, Role? role, Guid userId)
         {
             var AuthClaims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role,(role.GetType()).ToString())
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            if (role != null)
+            {
+                AuthClaims.Add(new Claim(ClaimTypes.Role, role.Name ?? "User"));
+            }
+            else
+            {
+                AuthClaims.Add(new Claim(ClaimTypes.Role, "User"));
+            }
 
             var authKeyString = _configuration["Jwt:Key"];
             if (authKeyString?.Length < 32)

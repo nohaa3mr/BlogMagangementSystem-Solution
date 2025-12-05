@@ -1,8 +1,10 @@
 ﻿using BlogMagangementSystem.Common.Helpers;
 using BlogMagangementSystem.Features.PostFeatures.GetAllPosts.Query;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogMagangementSystem.Features.PostFeatures.GetAllPosts;
 
+[Authorize(Policy = "Authenticated")]
 public class GetAllPostsEndpoint : BaseEndpoint<GetAllPostsRequestViewModel , PagingHelper<GetAllPostsResponseViewModel>>
 {
     public GetAllPostsEndpoint(BaseEndpointParameters<GetAllPostsRequestViewModel> parameters): base(parameters)

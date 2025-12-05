@@ -2,5 +2,7 @@
 {
     public class CreateCommentRequestViewModel
     {
+        public string Content { get; set; }
+        public Guid PostId { get; set; }
     }
 }

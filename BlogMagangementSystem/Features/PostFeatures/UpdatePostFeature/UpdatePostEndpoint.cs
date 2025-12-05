@@ -1,9 +1,11 @@
 ﻿using BlogMagangementSystem.Common.Structures.ResponseStructure;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogMagangementSystem.Features.PostFeatures.UpdatePostFeature
 {
+    [Authorize(Policy = "Authenticated")]
     public class UpdatePostEndpoint :BaseEndpoint<UpdatePostRequestViewModel,UpdatePostResponseViewModel>
     {
         public UpdatePostEndpoint(BaseEndpointParameters<UpdatePostRequestViewModel> parameters): base(parameters){}

@@ -2,10 +2,12 @@
 using BlogMagangementSystem.Common.Structures.ResponseStructure;
 using BlogMagangementSystem.Features.CommonDTOs;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogMagangementSystem.Features.PostFeatures.DeletePostFeature
 {
+    [Authorize(Policy = "Authenticated")]
     public class DeletePostEndpoint : BaseEndpoint<DeletePostRequestViewModel,DeletePostResponseViewModel>
     {
         public DeletePostEndpoint(BaseEndpointParameters<DeletePostRequestViewModel> parameters): base(parameters){ }

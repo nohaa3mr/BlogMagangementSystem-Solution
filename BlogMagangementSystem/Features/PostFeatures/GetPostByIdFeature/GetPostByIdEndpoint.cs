@@ -1,9 +1,11 @@
 ﻿using BlogMagangementSystem.Common.Structures.ResponseStructure;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogMagangementSystem.Features.PostFeatures.GetPostByIdFeature
 {
+    [Authorize(Policy = "Authenticated")]
     public class GetPostByIdEndpoint : BaseEndpoint<GetPostByIdRequestViewModel, GetPostByIdResponseViewModel>
     {
         public GetPostByIdEndpoint(BaseEndpointParameters<GetPostByIdRequestViewModel> parameters) : base(parameters)

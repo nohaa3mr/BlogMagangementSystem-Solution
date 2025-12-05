@@ -15,7 +15,7 @@ namespace BlogMagangementSystem.Features.UserFeatures.Registeration
         public override async Task<RequestResult<UserDto>> Handle(UserRegisterationCommand request, CancellationToken cancellationToken)
         {
             if(request.UserDto is null) 
-            return RequestResult<UserDto>.Failure(ErrorCode.UserAuthenticationFailed);
+            return RequestResult<UserDto>.  Failure(ErrorCode.UserAuthenticationFailed);
             if( await _repository.ExistsAsync(u => u.Email == request.UserDto.Email))
             {
                 return RequestResult<UserDto>.Failure(ErrorCode.UserAlreadyExists);
@@ -40,7 +40,7 @@ namespace BlogMagangementSystem.Features.UserFeatures.Registeration
                 await _repository.AddAsync(user);
                 await _repository.SaveChangesAsync();
                 userDto = user.Adapt<UserDto>();
-                userDto.Token =await parameters.JwtService.GetTokenAsync(user.Username , user.Email, user.Role);
+                userDto.Token =await parameters.JwtService.GetTokenAsync(user.Username , user.Email, user.Role , user.ID);
                 //BackgroundJob.Enqueue<EmailService>(service => service.SendWelcomeEmail(user.Email));
                 return RequestResult<UserDto>.Success
                 (

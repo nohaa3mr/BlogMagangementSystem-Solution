@@ -29,7 +29,7 @@
             {
                 Email = user.Email,
                 Password = user.Password,
-                Token = await _parameters.JwtService.GetTokenAsync(user.Username, user.Email, user.Role)
+                Token = await _parameters.JwtService.GetTokenAsync(user.Username, user.Email, user.Role, user.ID)
 
             };
             var Data = ResultDto.Adapt<UserLoginDTO>();
